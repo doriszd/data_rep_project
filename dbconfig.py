@@ -1,6 +1,8 @@
+# dbconfig.py with my credentials
+
 mysql={
     'host':"localhost",
-    'username':'root',
+    'user':'root',
     'password':'',
     'database': 'hotel_guests'
 }
