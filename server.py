@@ -109,7 +109,7 @@ def update(id):
 ####################################################################################################################
  
 # Delete: deletes data based on id
-#curl -X DELETE "http://127.0.0.1:5000/guest/5"
+#curl -X DELETE "http://127.0.0.1:5000/guest/4"
 @app.route('/guest/<int:id>' , methods=['DELETE'])
 def delete(id):
     # Remove guest from database by id

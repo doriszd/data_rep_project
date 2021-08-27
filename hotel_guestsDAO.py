@@ -1,12 +1,13 @@
-  
+# Hotel_guestsDAO.py
 # import the mysql connector module
 import mysql.connector
-
+# importing cursor from mysql connector
 from mysql.connector import cursor
+# importing dbconfig file that has my credentials for mysql
 import dbconfig as cfg
 
 
-# hotel_guestsDao class defined
+# guestsDao class defined
 class GuestsDAO:
     db = ""
 
@@ -25,27 +26,26 @@ class GuestsDAO:
     def __init__(self):
         self.connectToDB()            
     
-
+    # Checking for connection, if none make one.
     def getCursor(self):
         if not self.db.is_connected():
             self.connectToDB()
         return self.db.cursor()
 
-    # working create
+#################################################################################################################
+
+    # function to create new data in a table
     def create(self, values):
         cursor = self.getCursor()
         sql = "insert into guest (guestID, guest_name, guest_surname, country) values (%s,%s,%s,%s)"
-        
-            
        
         cursor.execute(sql, values)
         self.db.commit()
         return cursor.lastrowid
 
-
-    # get method (working)...test code
-    #returnValue = results = GuestsDAO().getAll()
-    #print(returnValue)
+#################################################################################################################
+   
+    # function to get all data from table guest
     def getAll(self):
         cursor = self.getCursor()
         sql = "select * from guest"
@@ -59,7 +59,9 @@ class GuestsDAO:
             returnArray.append(self.convertToDict(result, colnames))
 
         return returnArray
+#################################################################################################################
 
+    # function to find all data based on the entered id
     def findById(self, id):
         cursor = self.getCursor()
         sql = "select * from guest where id = %s"
@@ -69,8 +71,9 @@ class GuestsDAO:
         colnames=['id', 'guestID', 'guest_name', 'guest_surname', 'country']
         return self.convertToDict(results, colnames)
         #print(results)
+ #################################################################################################################
         
-    # working
+    # function that updates all data based on entered id
     def update(self, values):
         cursor = self.getCursor()
         sql = "update guest set guestID = %s, guest_name = %s, guest_surname=%s, country=%s where id = %s"
@@ -79,17 +82,21 @@ class GuestsDAO:
         self.db.commit()
         print("update done")
         cursor.close()
-    #working
-    def delete(self, guestID):
+
+#################################################################################################################
+
+    #function which deletes guest info based on entered id 
+    def delete(self, id):
         cursor = self.getCursor()
-        sql = "delete from guest where guestID = %s"
-        values = [guestID]
+        sql = "delete from guest where id = %s"
+        values = (id,)
         cursor.execute(sql, values)
         return {}
         
        
         
-
+#################################################################################################################
+    # function that converts the data from the database to JSON
     def convertToDict(self, result, colnames):
         #colnames = ['id','guestID', 'guest_name', 'guest_surname', 'country']
         guest = {}
@@ -100,5 +107,5 @@ class GuestsDAO:
                 guest[colName] = value
         return guest
 
-
+# new instance of the guestDao class called
 guestsDAO = GuestsDAO()
