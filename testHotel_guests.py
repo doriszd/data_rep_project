@@ -21,6 +21,6 @@ guest2 = {
 #print("update")
 #print(returnvalue)
 
-returnvalue = GuestsDAO().delete(guest2['guestID'])
+returnvalue =GuestsDAO().delete(guest2['guestID'])
 print("delete")
 print(returnvalue)

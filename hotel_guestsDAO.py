@@ -2,23 +2,28 @@
 # import the mysql connector module
 import mysql.connector
 
-from mysql.connector import cursor 
+from mysql.connector import cursor
+import dbconfig as cfg
 
 
 # hotel_guestsDao class defined
 class GuestsDAO:
     db = ""
 
-    def __init__(self): 
+    #def __init__(self):
+    def connectToDB(self):
         self.db = mysql.connector.connect(
-            host="localhost",
-            user="root",
-            password="",
-            database="hotel_guests"
+        host = cfg.mysql['host'],
+        user = cfg.mysql['user'],
+        password = cfg.mysql['password'],
+        database = cfg.mysql['database']
         )
-        #print("connection made")
+    
+    #print("connection made")
 
-
+    
+    def __init__(self):
+        self.connectToDB()            
     
 
     def getCursor(self):
@@ -27,16 +32,12 @@ class GuestsDAO:
         return self.db.cursor()
 
     # working create
-    def create(self, guest):
+    def create(self, values):
         cursor = self.getCursor()
         sql = "insert into guest (guestID, guest_name, guest_surname, country) values (%s,%s,%s,%s)"
-        values = [
-            guest['guestID'],
-            guest['guest_name'],
-            guest['guest_surname'],
-            guest['country']
+        
             
-        ]
+       
         cursor.execute(sql, values)
         self.db.commit()
         return cursor.lastrowid
@@ -51,36 +52,33 @@ class GuestsDAO:
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
+        colnames=['id','guestID','guest_name', "guest_surname", "country"]
         #print(results)
         for result in results:
-            resultAsDict = self.convertToDict(result)
-            returnArray.append()
+            print(result)
+            returnArray.append(self.convertToDict(result, colnames))
 
         return returnArray
 
-    def findById(self, guestID):
+    def findById(self, id):
         cursor = self.getCursor()
-        sql = "select * from guest where guestID = %s"
-        values = ['guestID']
+        sql = "select * from guest where id = %s"
+        values = (id, ) 
         cursor.execute(sql, values)
         results = cursor.fetchone()
-        return self.covertToDict(results)
+        colnames=['id', 'guestID', 'guest_name', 'guest_surname', 'country']
+        return self.convertToDict(results, colnames)
         #print(results)
         
     # working
-    def update(self, guest):
+    def update(self, values):
         cursor = self.getCursor()
-        sql = "update guest set guest_name = %s, guest_surname=%s, country=%s where guestID = %s"
-        values = [
-            guest['guest_name'],
-            guest['guest_surname'],
-            guest['country'],
-            guest['guestID']
-            
-        ]
+        sql = "update guest set guestID = %s, guest_name = %s, guest_surname=%s, country=%s where id = %s"
+        
         cursor.execute(sql, values)
         self.db.commit()
-        return guest
+        print("update done")
+        cursor.close()
     #working
     def delete(self, guestID):
         cursor = self.getCursor()
@@ -92,8 +90,8 @@ class GuestsDAO:
        
         
 
-    def covertToDict(self, result):
-        colnames = ['guestID', 'guest_name', 'guest_surname', 'country']
+    def convertToDict(self, result, colnames):
+        #colnames = ['id','guestID', 'guest_name', 'guest_surname', 'country']
         guest = {}
 
         if result:
