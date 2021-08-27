@@ -1,27 +1,39 @@
+# importing flask, jsonify, request and abort
 from flask import Flask, jsonify, request, abort
+# importing class guestsDAO from my file hotel_guestsDAO 
 from hotel_guestsDAO import guestsDAO
 
 app = Flask(__name__, static_url_path='', static_folder='.')
 
 #app = Flask(__name__)
 
-@app.route('/')
-def index():
-    return "Hello, World!"
+#@app.route('/')
+#def index():
+    #return "Hello, World!"
 
-#curl "http://127.0.0.1:5000/books"
+
+####################################################################################################################
+
+#curl "http://127.0.0.1:5000/guest"
 @app.route('/guest')
 def getAll():
     #print("in getall")
     results = guestsDAO.getAll()
     return jsonify(results)
 
-#curl "http://127.0.0.1:5000/books/2"
+
+
+####################################################################################################################
+#curl "http://127.0.0.1:5000/guest/2"
 @app.route('/guest/<int:id>')
 def findById(id):
     foundguest = guestsDAO.findById(id)
 
     return jsonify(foundguest)
+
+
+
+####################################################################################################################
 
 #curl  -i -H "Content-Type:application/json" -X POST -d "{\"guestID\":124,\"guest_name\":\"Marija\",\"guest_surname\":\"Maric\", \"country\":\"Serbia\"}" "http://127.0.0.1:5000/guest"
 @app.route('/guest', methods=['POST'])
@@ -42,7 +54,10 @@ def create():
     guest['id'] = newId
     return jsonify(guest)
 
-#curl  -i -H "Content-Type:application/json" -X PUT -d "{\"Title\":\"hello\",\"Author\":\"someone\",\"Price\":123}" http://127.0.0.1:5000/books/1
+
+####################################################################################################################
+
+#curl -i -H "Content-Type:application/json" -X PUT -d "{\"country\":\"Spain\"}" "http://127.0.0.1:5000/guest/4"
 @app.route('/guest/<int:id>', methods=['PUT'])
 def update(id):
     foundguest = guestsDAO.findById(id)
@@ -68,6 +83,7 @@ def update(id):
     return jsonify(foundguest)
         
 
+####################################################################################################################
  
 
 @app.route('/guest/<int:id>' , methods=['DELETE'])
