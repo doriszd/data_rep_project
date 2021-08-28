@@ -1,0 +1,252 @@
+  
+<html>
+    <head>
+        <title> view Guests</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+       
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body>
+        <h1>Guests</h1>
+        <div> <button id="showCreateButton" onclick="showCreate()">Create</button></div>
+        <div>
+            <table class="table" id="guestTable">
+                <tr>
+                        <th>id</th>
+                        <th>GuestID</th>
+                        <th>
+                            Guest_name
+                        </th>
+                        <th>Guest_surname</th>
+                        <th>Country</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                </tr>
+                
+            </table>
+        </div>
+        <div id='createUpdateForm' style="display: none">
+                <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> Guest</h2>
+                <input type="hidden" name="id"/>
+                GuestID <input type="number" name="GuestID" /><br/>
+                Guest_name<input type="text" name="Guest_name"/> <br/>
+                Guest_surname <input type="text" name="Guest_surname"/><br/>
+                Country <input type="text" name="country"/><br/>
+                <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
+                <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
+        </div>
+    </body>
+    <script>
+    function showCreate(){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('guestTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="inline"
+        document.getElementById('updateLabel').style.display="none"
+
+        document.getElementById('doCreateButton').style.display="block"
+        document.getElementById('doUpdateButton').style.display="none"
+
+    }
+    function showViewAll(){
+        document.getElementById('showCreateButton').style.display="block"
+        document.getElementById('guestTable').style.display="block"
+        document.getElementById('createUpdateForm').style.display="none"
+    }
+    function showUpdate(buttonElement){
+        document.getElementById('showCreateButton').style.display="none"
+        document.getElementById('guestTable').style.display="none"
+        document.getElementById('createUpdateForm').style.display="block"
+
+        document.getElementById('createLabel').style.display="none"
+        document.getElementById('updateLabel').style.display="inline"
+
+        document.getElementById('doCreateButton').style.display="none"
+        document.getElementById('doUpdateButton').style.display="block"
+
+
+        var rowElement = buttonElement.parentNode.parentNode
+        // these is a way of finding the closest <tr> which would safer, closest()
+        
+        var guest = getGuestFromRow(rowElement)
+        populateFormWithGuest(guest)
+    }
+    function doCreate(){
+        var form = document.getElementById('createUpdateForm')
+
+        var guest = {}
+       
+        guest.GuestID = form.querySelector('input[name="GuestID"]').value
+        guest.Guest_name = form.querySelector('input[name="Guest_name"]').value
+        guest.Guest_surname = form.querySelector('input[name="Guest_surname"]').value
+        guest.Country = form.querySelector('input[name="Country"]').value
+        console.log(JSON.stringify(guest))
+        createGuestAjax(guest)
+        
+        
+    }
+    function doUpdate(){
+        var guest= getGuestFromForm();
+        var rowElement = document.getElementById(guest.id);
+        updateGuestAjax(guest);
+        setGuestInRow(rowElement,guest);
+       
+        clearForm();
+        showViewAll();
+    }
+    function doDelete(r){
+        var tableElement = document.getElementById('guestTable');
+        var rowElement = r.parentNode.parentNode;
+        var index = rowElement.rowIndex;
+        deleteGuestAjax(rowElement.getAttribute("id"));
+        tableElement.deleteRow(index);
+    }
+    function addGuestToTable(guest){
+        var tableElement = document.getElementById('guestTable')
+        var rowElement = tableElement.insertRow(-1)
+        rowElement.setAttribute('id',guest.id)
+        var cell1 = rowElement.insertCell(0);
+        cell1.innerHTML = guest.id
+        var cell2 = rowElement.insertCell(1);
+        cell2.innerHTML = guest.GuestID
+        var cell3 = rowElement.insertCell(2);
+        cell3.innerHTML = guest.Guest_name
+        var cell4 = rowElement.insertCell(3);
+        cell4.innerHTML = guest.Guest_surname
+        var cell5 = rowElement.insertCell(4);
+        cell4.innerHTML = guest.Country
+        var cell6 = rowElement.insertCell(5);
+        cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        var cell7 = rowElement.insertCell(6);
+        cell6.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+
+    }
+
+    function clearForm(){
+        var form = document.getElementById('createUpdateForm')
+
+        form.querySelector('input[name="GuestID"]').value=''
+        form.querySelector('input[name="guest_name"]').value=''
+        form.querySelector('input[name="Guest_surname"]').value=''
+    }   form.querySelector('input[name="Country"]').value=''
+    function getGuestFromRow(rowElement){
+        var car ={}
+        guest.id  = rowElement.getAttribute('id')
+        guest.GuestID = parseInt(rowElement.cells[2].firstChild.textContent,10)
+        guest.Guest_name= rowElement.cells[3].firstChild.textContent
+        guest.Guest_surname = rowElement.cells[4].firstChild.textContent
+        guest.Country = rowElement.cells[5].firstChild.textContent
+        return guest
+    }
+    function setGuestInRow(rowElement, guest){
+        rowElement.cells[0].firstChild.textContent= guest.id  
+        rowElement.cells[1].firstChild.textContent= guest.guestID
+        rowElement.cells[2].firstChild.textContent= guest.Guest_name
+        rowElement.cells[3].firstChild.textContent= guest.Guest_surname
+        rowElement.cells[4].firstChild.textContent= guest.Country
+    }
+    function populateFormWithGuest(guest){
+        var form = document.getElementById('createUpdateForm')
+        form.querySelector('input[name="id"]').disabled = true
+
+        form.querySelector('input[name="id"]').value  = guest.id
+        form.querySelector('input[name="GuestID"]').value= guest.GuestID
+        form.querySelector('input[name="Guest_name"]').value= guest.Guest_name
+        form.querySelector('input[name="Guest_surname"]').value= guest.Guest_surname
+        form.querySelector('input[name="Country"]').value= guest.Country
+        return guest
+    }
+    function getGuestFromForm(){
+        var form = document.getElementById('createUpdateForm')
+        var guest = {}
+        guest.id = form.querySelector('input[name="id"]').value
+        guest.GuestID = parseInt(form.querySelector('input[name="GuestID"]').value,10)
+        guest.Guest_name = form.querySelector('input[name="Guest_name"]').value
+        guest.Guest_surname = form.querySelector('input[name="Guest_surname"]').value
+        guest.Country = form.querySelector('input[name="Country"]').value
+        console.log(JSON.stringify(guest))
+        return guest
+    }
+    function getAllAjax(){
+        $.ajax({
+            "url": "http://127.0.0.1:5000/guest",
+            "method":"GET",
+            "data":"",
+            "dataType": "JSON",
+            "success":function(result){
+                //console.log(result);
+                for (guest of result){
+                    addGuestToTable(guest);
+                }
+                
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+
+    }
+    function createGuestAjax(guest){
+        //var car = {"reg":"12 D 1234","make":"Fiat","model":"Punto","price":3000}
+        console.log(JSON.stringify(guest));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/guest",
+            "method":"POST",
+            "data":JSON.stringify(guest),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                guest.id = result.id
+                addGuestToTable(guest)
+                clearForm()
+                showViewAll()
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function updateGuestAjax(guest){
+        //var car = {"reg":"12 D 1234","price":8000}
+        console.log(JSON.stringify(guest));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/guest/"+encodeURI(guest.id),
+            "method":"PUT",
+            "data":JSON.stringify(guest),
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+               // console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    function deleteGuestAjax(id){
+        
+        //console.log(JSON.stringify('deleting '+id));
+        $.ajax({
+            "url": "http://127.0.0.1:5000/guest/"+encodeURI(id),
+            "method":"DELETE",
+            "data":"",
+            "dataType": "JSON",
+            contentType: "application/json; charset=utf-8",
+            "success":function(result){
+                //console.log(result);
+                  
+            },
+            "error":function(xhr,status,error){
+                console.log("error: "+status+" msg:"+error);
+            }
+        });
+    }
+    getAllAjax();
+  
+
+    
+    </script>
+</html>
