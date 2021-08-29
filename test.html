@@ -1,0 +1,17 @@
+<script type="text/javascript" language="javascript">
+    $('#enter').click(function(event){
+    event.preventDefault();
+        $.ajax({
+            type: 'GET',
+            url: 'functions.php?id=enter_game',
+            cache: false,
+            success: function(result) {
+               console.log(result);
+            }
+        });
+    });
+</script>
+functions.php
+
+<?php
+echo "This is just to see if Ajax is working and it does !";

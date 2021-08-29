@@ -2,7 +2,7 @@
 <html>
     <head>
         <title> view Guests</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
        
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
@@ -14,9 +14,7 @@
                 <tr>
                         <th>id</th>
                         <th>GuestID</th>
-                        <th>
-                            Guest_name
-                        </th>
+                        <th>Guest_name</th>
                         <th>Guest_surname</th>
                         <th>Country</th>
                         <th>Update</th>
@@ -26,12 +24,12 @@
             </table>
         </div>
         <div id='createUpdateForm' style="display: none">
-                <h2><span id="createLabel">Create a</span> <span id="updateLabel">update</span> Guest</h2>
+                <h2><span id="createLabel">Create a new guest</span> <span id="updateLabel">update existing guest</span></h2>
                 <input type="hidden" name="id"/>
-                GuestID <input type="number" name="GuestID" /><br/>
-                Guest_name<input type="text" name="Guest_name"/> <br/>
+                GuestID <input type="number" name="GuestID"/><br/>
+                Guest_name <input type="text" name="Guest_name"/> <br/>
                 Guest_surname <input type="text" name="Guest_surname"/><br/>
-                Country <input type="text" name="country"/><br/>
+                Country <input type="text" name="Country"/><br/>
                 <span><button id="doCreateButton" onclick="doCreate()">Create</button></span>
                 <span><button id="doUpdateButton" onclick="doUpdate()">Update</button></span>
         </div>
@@ -49,6 +47,7 @@
         document.getElementById('doUpdateButton').style.display="none"
 
     }
+
     function showViewAll(){
         document.getElementById('showCreateButton').style.display="block"
         document.getElementById('guestTable').style.display="block"
@@ -77,10 +76,10 @@
 
         var guest = {}
        
-        guest.GuestID = form.querySelector('input[name="GuestID"]').value
-        guest.Guest_name = form.querySelector('input[name="Guest_name"]').value
-        guest.Guest_surname = form.querySelector('input[name="Guest_surname"]').value
-        guest.Country = form.querySelector('input[name="Country"]').value
+        guest.guestID = form.querySelector('input[name="GuestID"]').value
+        guest.guest_name = form.querySelector('input[name="Guest_name"]').value
+        guest.guest_surname = form.querySelector('input[name="Guest_surname"]').value
+        guest.country = form.querySelector('input[name="Country"]').value
         console.log(JSON.stringify(guest))
         createGuestAjax(guest)
         
@@ -90,7 +89,7 @@
         var guest= getGuestFromForm();
         var rowElement = document.getElementById(guest.id);
         updateGuestAjax(guest);
-        setGuestInRow(rowElement,guest);
+        setGuestInRow(rowElement, guest);
        
         clearForm();
         showViewAll();
@@ -104,22 +103,28 @@
     }
     function addGuestToTable(guest){
         var tableElement = document.getElementById('guestTable')
-        var rowElement = tableElement.insertRow(-1)
-        rowElement.setAttribute('id',guest.id)
+        var rowElement = tableElement.insertRow(-1) 
+        rowElement.setAttribute('id', guest.id)
         var cell1 = rowElement.insertCell(0);
         cell1.innerHTML = guest.id
+
         var cell2 = rowElement.insertCell(1);
-        cell2.innerHTML = guest.GuestID
+        cell2.innerHTML = guest.guestID
+
         var cell3 = rowElement.insertCell(2);
-        cell3.innerHTML = guest.Guest_name
+        cell3.innerHTML = guest.guest_name
+
         var cell4 = rowElement.insertCell(3);
-        cell4.innerHTML = guest.Guest_surname
+        cell4.innerHTML = guest.guest_surname
+
         var cell5 = rowElement.insertCell(4);
-        cell4.innerHTML = guest.Country
+        cell5.innerHTML = guest.country
+
         var cell6 = rowElement.insertCell(5);
-        cell5.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+        cell6.innerHTML = '<button onclick="showUpdate(this)">Update</button>'
+
         var cell7 = rowElement.insertCell(6);
-        cell6.innerHTML = '<button onclick=doDelete(this)>delete</button>'
+        cell7.innerHTML = '<button onclick=doDelete(this)>delete</button>'
 
     }
 
@@ -127,21 +132,23 @@
         var form = document.getElementById('createUpdateForm')
 
         form.querySelector('input[name="GuestID"]').value=''
-        form.querySelector('input[name="guest_name"]').value=''
+        form.querySelector('input[name="Guest_name"]').value=''
         form.querySelector('input[name="Guest_surname"]').value=''
-    }   form.querySelector('input[name="Country"]').value=''
+        form.querySelector('input[name="Country"]').value=''
+
+    }
     function getGuestFromRow(rowElement){
         var car ={}
         guest.id  = rowElement.getAttribute('id')
-        guest.GuestID = parseInt(rowElement.cells[2].firstChild.textContent,10)
-        guest.Guest_name= rowElement.cells[3].firstChild.textContent
-        guest.Guest_surname = rowElement.cells[4].firstChild.textContent
-        guest.Country = rowElement.cells[5].firstChild.textContent
+        guest.GuestID = parseInt(rowElement.cells[1].firstChild.textContent,10)
+        guest.Guest_name = rowElement.cells[2].firstChild.textContent
+        guest.Guest_surname = rowElement.cells[3].firstChild.textContent
+        guest.Country = rowElement.cells[4].firstChild.textContent
         return guest
     }
     function setGuestInRow(rowElement, guest){
         rowElement.cells[0].firstChild.textContent= guest.id  
-        rowElement.cells[1].firstChild.textContent= guest.guestID
+        rowElement.cells[1].firstChild.textContent= guest.GuestID
         rowElement.cells[2].firstChild.textContent= guest.Guest_name
         rowElement.cells[3].firstChild.textContent= guest.Guest_surname
         rowElement.cells[4].firstChild.textContent= guest.Country
@@ -168,6 +175,8 @@
         console.log(JSON.stringify(guest))
         return guest
     }
+
+    
     function getAllAjax(){
         $.ajax({
             "url": "http://127.0.0.1:5000/guest",
@@ -197,7 +206,7 @@
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-                //console.log(result);
+                console.log(result);
                 guest.id = result.id
                 addGuestToTable(guest)
                 clearForm()
@@ -209,8 +218,8 @@
         });
     }
     function updateGuestAjax(guest){
-        //var car = {"reg":"12 D 1234","price":8000}
-        console.log(JSON.stringify(guest));
+        
+        console.log(JSON.stringify(guest.id));
         $.ajax({
             "url": "http://127.0.0.1:5000/guest/"+encodeURI(guest.id),
             "method":"PUT",
@@ -218,7 +227,7 @@
             "dataType": "JSON",
             contentType: "application/json; charset=utf-8",
             "success":function(result){
-               // console.log(result);
+            //console.log(result);
                   
             },
             "error":function(xhr,status,error){
@@ -245,7 +254,7 @@
         });
     }
     getAllAjax();
-  
+ 
 
     
     </script>
