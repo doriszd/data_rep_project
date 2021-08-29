@@ -22,9 +22,9 @@ app = Flask(__name__, static_url_path='', static_folder='.')
 def getAll():
     #print("in getall")
     # Connects to guest table
-    results = guestsDAO.getAll()
+    result = guestsDAO.getAll()
     # return result
-    return jsonify(results)
+    return jsonify(result)
 
 
 
@@ -86,18 +86,20 @@ def update(id):
     if not request.json:
         abort(400)
     reqJson = request.json
+
     if 'guestID' in reqJson and type(reqJson['guestID']) is not int:
         abort(400)
 
     # data to update
+    if 'guestID' in reqJson:
+        foundguest['guestID'] = reqJson['guestID']
     if 'guest_name' in reqJson:
         foundguest['guest_name'] = reqJson['guest_name']
     if 'guest_surname' in reqJson:
-        foundguest['Aguest_surname'] = reqJson['guest_surname']
+        foundguest['guest_surname'] = reqJson['guest_surname']
     if 'country' in reqJson:
         foundguest['country'] = reqJson['country']
-    if 'guestID' in reqJson:
-        foundguest['guestID'] = reqJson['guestID']
+    
     
     # Make the tuple for database
     values = (foundguest['guestID'],foundguest['guest_name'],foundguest['guest_surname'],foundguest['country'], foundguest['id'])

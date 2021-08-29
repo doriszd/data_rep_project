@@ -37,11 +37,15 @@ class GuestsDAO:
     # function to create new data in a table
     def create(self, values):
         cursor = self.getCursor()
+        
         sql = "insert into guest (guestID, guest_name, guest_surname, country) values (%s,%s,%s,%s)"
-       
+        
         cursor.execute(sql, values)
         self.db.commit()
-        return cursor.lastrowid
+        lastRowID = cursor.lastrowid
+        cursor.close()
+        return lastRowID
+        
 
 #################################################################################################################
    
@@ -52,11 +56,12 @@ class GuestsDAO:
         cursor.execute(sql)
         results = cursor.fetchall()
         returnArray = []
-        colnames=['id','guestID','guest_name', "guest_surname", "country"]
-        #print(results)
+        
+        print(results)
         for result in results:
             print(result)
-            returnArray.append(self.convertToDict(result, colnames))
+            returnArray.append(self.convertToDict(result))
+        cursor.close()
 
         return returnArray
 #################################################################################################################
@@ -65,23 +70,23 @@ class GuestsDAO:
     def findById(self, id):
         cursor = self.getCursor()
         sql = "select * from guest where id = %s"
-        values = (id, ) 
+        values = (id,) 
         cursor.execute(sql, values)
-        results = cursor.fetchone()
-        colnames=['id', 'guestID', 'guest_name', 'guest_surname', 'country']
-        return self.convertToDict(results, colnames)
+        result = cursor.fetchone()
+        
+        return self.convertToDict(result)
         #print(results)
  #################################################################################################################
         
     # function that updates all data based on entered id
     def update(self, values):
         cursor = self.getCursor()
-        sql = "update guest set guestID = %s, guest_name = %s, guest_surname=%s, country=%s where id = %s"
-        
+        sql = "update guest set guestID =%s, guest_name =%s, guest_surname=%s, country=%s where id =%s"
+    
         cursor.execute(sql, values)
         self.db.commit()
-        print("update done")
-        cursor.close()
+        #print("update done")
+        
 
 #################################################################################################################
 
@@ -97,8 +102,8 @@ class GuestsDAO:
         
 #################################################################################################################
     # function that converts the data from the database to JSON
-    def convertToDict(self, result, colnames):
-        #colnames = ['id','guestID', 'guest_name', 'guest_surname', 'country']
+    def convertToDict(self, result):
+        colnames = ['id','guestID', 'guest_name', 'guest_surname', 'country']
         guest = {}
 
         if result:
