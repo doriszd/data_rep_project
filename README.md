@@ -81,7 +81,7 @@ The web application is connected to mysql database hotel_guests so it will updat
 
 ![guest_list](guest_list.PNG)
 
-#### Create page:
+#### Create a new guest page:
 
 ![create a new guest](create.PNG)
 
