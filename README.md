@@ -28,3 +28,28 @@ The repository contains:
 
 - server.py: Python app server which should be run in a virtual environment
 
+### Step by step:
+
+#### Virtual machine
+
+- .\venv\Scripts\activate.bat: to activate virutal machine
+- pip install -r requirements.txt: to install all the packages needed to run the application listed in requirements.txt
+
+#### Server.py
+
+- set FLASK_APP=server.py: using server.py script
+- python -m flask run: to get the server running in the virtual environment
+- I got a message saying: "Running on http://127.0.0.1:5000/"
+- I ran http://127.0.0.1:5000/ on my web browser.
+
+
+#### Downloading the repository
+
+1. Go to GitHub.
+2. Navigate to the main page of the repository:https://github.com/doriszd/data_rep_project
+3. Under the repository name, click Clone or download
+4. Save the repository to a local folder location on your computer.
+5. Navigate to your target directory in the command line
+6. To add new content on gitHub type add .
+7. Type git commit -m "Write a message here"
+8. To send it to gitHub type git push
