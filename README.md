@@ -86,3 +86,14 @@ The web application is connected to mysql database hotel_guests so it will updat
 ![create a new guest](create.PNG)
 
 
+
+References:
+
+
+- https://stackoverflow.com/questions/38014315/jquery-ajax-does-not-update-values-in-mysql/38014391
+- https://www.w3schools.com/css/css_margin.asp
+- https://flask.palletsprojects.com/en/2.0.x/
+- https://www.w3schools.com/sql/sql_drop_db.asp
+- https://codehandbook.org/python-flask-jquery-ajax-post/
+- http://www.csgnetwork.com/htmlcodetest.html
+- https://stackoverflow.com/questions/38563589/curl-no-url-specified-for-restful-api
