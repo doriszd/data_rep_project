@@ -72,3 +72,12 @@ The database contains one table called guests that has 5 categories:
 To show all details about the guests staying at the hotel I used mysql command: select * from guest;
 
 ![guest_list](guest.PNG)
+
+
+This is what an end user will see:
+
+![guest_list](guest_list.PNG)
+
+![create a new guest](create.PNG)
+
+
