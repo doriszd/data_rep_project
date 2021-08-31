@@ -58,16 +58,17 @@ The repository contains:
 ### MySql Database
 
 I have created MySql database called hotel_guests for the purpose of this project. The database contains one table called guests that has 5 categories:
-1. ID: PRIMARY KEY that is autocremented
+1. ID: PRIMARY KEY that is auto-increment
 2. guest_ID: unique guest number
 3. guest_name: Name of the guest staying in a hotel
 4. guest_surname: Surname of the guest staying in a hotel
 5. country: Country that the guest is coming from
 
-In order to show description of guest table in MySql database I used function: desc guest; 
+In order to show description of guest table in MySql database I used command: desc guest; 
 
 ![mysql_table](mysql_table.PNG)
 
 
+To show all details about the guests staying at the hotel I used mysql command: select * from guest;
 
-
+![guest_list](guest.PNG)
