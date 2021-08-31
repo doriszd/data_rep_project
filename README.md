@@ -53,3 +53,21 @@ The repository contains:
 6. To add new content on gitHub type add .
 7. Type git commit -m "Write a message here"
 8. To send it to gitHub type git push
+
+
+### MySql Database
+
+I have created MySql database called hotel_guests for the purpose of this project. The database contains one table called guests that has 5 categories:
+1. ID: PRIMARY KEY that is autocremented
+2. guest_ID: unique guest number
+3. guest_name: Name of the guest staying in a hotel
+4. guest_surname: Surname of the guest staying in a hotel
+5. country: Country that the guest is coming from
+
+In order to show description of guest table in MySql database I used function: desc guest; 
+
+![mysql_table](mysql_table.PNG)
+
+
+
+
