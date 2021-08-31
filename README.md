@@ -89,7 +89,7 @@ The web application is connected to mysql database hotel_guests so it will updat
 
 References:
 
-
+- https://github.com/andrewbeattycourseware/dataRepresenation2020/tree/master/code/week09-server1linktoDB.py
 - https://stackoverflow.com/questions/38014315/jquery-ajax-does-not-update-values-in-mysql/38014391
 - https://www.w3schools.com/css/css_margin.asp
 - https://flask.palletsprojects.com/en/2.0.x/
