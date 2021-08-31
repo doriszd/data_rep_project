@@ -74,9 +74,14 @@ To show all details about the guests staying at the hotel I used mysql command: 
 ![guest_list](guest.PNG)
 
 
-This is what an end user will see:
+This is a web application that would be available to an end user that works in a hotel. Web application allows end user to create information about new guests, update and delete them. 
+The web application is connected to mysql database hotel_guests so it will update every time end user make some changes in the web application. 
+
+#### Home page:
 
 ![guest_list](guest_list.PNG)
+
+#### Create page
 
 ![create a new guest](create.PNG)
 
