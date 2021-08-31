@@ -5,10 +5,47 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
        
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+        <style type = "text/css"> 
+        .body {
+            background-color:  rgb(239, 240, 232);
+            }
+        .create {
+		    text-align: left;
+		    margin: 100px;
+		    color: black;
+		    background-color: rgb(239, 240, 232);
+		    font-family: Calibri;
+		    font-weight: bold;
+		    padding: 30px;
+		    border-style: solid;
+		    border-color: black;
+		    border-width: 5px;
+		    font-size: 22px;
+     
+	        }
+        .headings {
+		    text-align: center;
+		    margin: 10px;
+		    color: black;
+		    background-color: #2d33032a;
+		    font-family: Calibri;
+		    font-size: 60px;
+		    padding: 30px;
+		    border-style: solid;
+		    border-color: black;
+		    border-width: 4px;
+        }
+
+        .button {
+            padding: 5px;
+            margin: 10px;
+        }
+        </style> 
     </head>
-    <body>
-        <h1>Guests</h1>
-        <div> <button id="showCreateButton" onclick="showCreate()">Create</button></div>
+    <body class="body">
+        <h1 class="headings">Guest List</h1>
+        <div> <button class="button" button id="showCreateButton" onclick="showCreate()">Create</button></div>
         <div>
             <table class="table" id="guestTable">
                 <tr>
@@ -23,7 +60,7 @@
                 
             </table>
         </div>
-        <div id='createUpdateForm' style="display: none">
+        <div class="create" id='createUpdateForm' style="display: none">
                 <h2><span id="createLabel">Create a new guest</span> <span id="updateLabel">update existing guest</span></h2>
                 <input type="hidden" name="id"/>
                 GuestID <input type="number" name="GuestID"/><br/>
